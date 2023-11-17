@@ -1,4 +1,9 @@
+package filemanager.main;
+
 import java.io.IOException;
+
+import filemanager.escrita.GeradorDeArquivo;
+import filemanager.leitura.Leitor;
 
 public class Simulador {
 
