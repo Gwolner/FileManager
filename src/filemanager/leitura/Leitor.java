@@ -2,7 +2,8 @@ package filemanager.leitura;
 
 import java.io.File;
 
-import filemanager.util.Constantes;
+import filemanager.util.Ctt;
+import filemanager.util.MensagemPersonalizada;
 
 public class Leitor {
 
@@ -11,61 +12,46 @@ public class Leitor {
 	private int nivel;
 	
 	public Leitor() {
-		this.path = "";
-		this.nivel = 1;
-	}
+		this.path = Ctt.VAZIO;
+		this.nivel = Ctt.UM;
+	}	
 	
-	public String gerarLayout(int nivel,String comeco, String sequencia, String termino) {		
-		String espacamento ="";	
-		
-		for(int i = 0;i <= nivel-2;i++) {
-			espacamento += sequencia;
-		}
-		
-		return comeco+espacamento+termino;
-	}
-	
-	
-	public String buscaArquivoELe(String caminho) {
+	public String lerDiretorio(String caminho) {
 		try {
-			int contadorArquivos = 0;	
-			
+			int contadorArquivos = Ctt.ZERO;			
 			File pasta = new File(caminho);			
 			File[] lista = pasta.listFiles();
-			String listaArquivos = "";
-			String subPasta = "";
-			String diretorioAtual = "";
-			String caminhoRecursivo = "";
+			String listaArquivos = Ctt.VAZIO;
+			String subPasta = Ctt.VAZIO;
+			String diretorioAtual = Ctt.VAZIO;
+			String caminhoRecursivo = Ctt.VAZIO;
 			
 			for (File file : lista) {
-			    if (file.isFile()) {
-			    	
+			    if (file.isFile()) {			    	
 			    	contadorArquivos ++;
 			    	
 			    	//Compara o diretório analisado com o diretório informado no path e define sua tabulação.
 			    	if(path.equals(file.getParent())) {
-				    	listaArquivos += file.getName()+Constantes.QUEBRA_LINHA;
+				    	listaArquivos += file.getName()+Ctt.QUEBRA;
 			    	}else {
-			    		listaArquivos += gerarLayout(nivel,Constantes.BARRA_INVERTIDA, "  ", "  ")+file.getName()+Constantes.QUEBRA_LINHA;
+			    		listaArquivos += Layout.tabulacao(nivel,Ctt.ESPACO,Ctt.ESPACO_DUPLO,Ctt.ESPACO_DUPLO)
+			    				+file.getName()+Ctt.QUEBRA;
 			    	}
 			    	
 			    	diretorioAtual = pasta.getName();
 			    }else {
-			    	nivel += 1;
-			    	
-			    	caminhoRecursivo = caminho+Constantes.BARRA_INVERTIDA+file.getName();
-			    	subPasta += gerarLayout(nivel,Constantes.BARRA_INVERTIDA, "__", " ")
-			    			 +buscaArquivoELe(caminhoRecursivo)+"";
+			    	nivel += Ctt.UM;			    	
+			    	caminhoRecursivo = caminho+Ctt.BARRA_INVERTIDA+file.getName();
+			    	subPasta += Layout.tabulacao(nivel,Ctt.BARRA_INVERTIDA,Ctt.LINHA_DUPLA, Ctt.ESPACO)
+			    			 +lerDiretorio(caminhoRecursivo)+Ctt.VAZIO;
 			    }
 			}
 			
-			nivel -= 1;
-			
-			return "["+diretorioAtual+"] | Nível "+nivel+"| "+contadorArquivos+" arquivos."
-					+ Constantes.QUEBRA_LINHA+listaArquivos+Constantes.QUEBRA_LINHA+subPasta;
+			nivel -= 1;			
+			return Layout.hierarquia(diretorioAtual, nivel, contadorArquivos, listaArquivos, subPasta, false, true);
 			
 		} catch (Exception e) {
-			return "Ocorreu um erro@"+e.getMessage();
+			return MensagemPersonalizada.excecao(e);
 		}
 		
 	}
