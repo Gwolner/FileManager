@@ -3,6 +3,7 @@ package filemanager.leitura;
 import java.io.File;
 
 import filemanager.util.Ctt;
+import filemanager.util.Layout;
 import filemanager.util.MensagemPersonalizada;
 
 public class Leitor {
@@ -47,7 +48,7 @@ public class Leitor {
 			    }
 			}
 			
-			nivel -= 1;			
+			nivel -= Ctt.UM;			
 			return Layout.hierarquia(diretorioAtual, nivel, contadorArquivos, listaArquivos, subPasta, false, true);
 			
 		} catch (Exception e) {
@@ -55,6 +56,8 @@ public class Leitor {
 		}
 		
 	}
+	
+	// Getter e Setter
 	
 	public void setPath(String path) {
 		this.path = path;
