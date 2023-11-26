@@ -6,16 +6,15 @@ public class Layout {
 	public static String tabulacao(int nivel,String comeco, String sequencia, String termino) {		
 		String espacamento = Ctt.VAZIO;	
 		
-		for(int i = Ctt.ZERO;i <= nivel-Ctt.DOIS;i++) {
+		for(int index = Ctt.ZERO;index <= nivel-Ctt.DOIS;index++) {
 			espacamento += sequencia;
 		}
 		
 		return comeco+espacamento+termino;
 	}
 	
-	public static String hierarquia(String diretorioAtual, int nivel,
-			int contadorArquivos,String listaArquivos,String subPasta, 
-			boolean exibirNivel, boolean exibirContadorArquivos) {
+	public static String hierarquia(String diretorioAtual, int nivel, int contadorArquivos, String listaArquivos, 
+			String subPasta, boolean exibirNivel, boolean exibirContadorArquivos) {
 		
 		if(exibirNivel || exibirContadorArquivos) {
 			if(exibirNivel && exibirContadorArquivos) {					
@@ -32,7 +31,6 @@ public class Layout {
 			return "["+diretorioAtual+"]"
 					+ Ctt.QUEBRA+listaArquivos+Ctt.QUEBRA+subPasta;
 		}
-		
 		
 	}
 	
