@@ -1,7 +1,4 @@
-package filemanager.leitura;
-
 import java.io.File;
-
 import filemanager.util.Ctt;
 import filemanager.util.Layout;
 import filemanager.util.MensagemPersonalizada;
@@ -13,9 +10,13 @@ public class Leitor {
 	private int nivel;
 	
 	public Leitor() {
-		this.path = Ctt.VAZIO;
+		this.path = Ctt .VAZIO;
 		this.nivel = Ctt.UM;
 	}	
+	
+	public void reiniciarLeitor() {
+		this.nivel = Ctt.UM;
+	}
 	
 	public String lerDiretorio(String caminho) {
 		try {
@@ -48,16 +49,37 @@ public class Leitor {
 			    }
 			}
 			
-			nivel -= Ctt.UM;			
-			return Layout.hierarquia(diretorioAtual, nivel, contadorArquivos, listaArquivos, subPasta, false, true);
+			nivel -= 1;			
+			return Layout.hierarquia(diretorioAtual, nivel, contadorArquivos, listaArquivos, subPasta, true, true);
 			
 		} catch (Exception e) {
 			return MensagemPersonalizada.excecao(e);
+		}finally {
+			
+			//Reinicia o nível após encerrar a chamada recursiva (encerra com nível <= 0, exceto o primeiro 0).
+			if(nivel <=0) {
+				reiniciarLeitor();
+//				System.out.println("Nível: "+nivel);
+			}
+//			
 		}
 		
 	}
 	
-	// Getter e Setter
+	public String lerExcel(String caminho) {
+		//Melhoria futura
+		return "Lendo Excel";
+	}
+	
+	public String lerXML(String caminho) {
+		//Melhoria Futura
+		return "Lendo XMl";
+	}
+	
+	public String lerPOM(String caminho) {
+		//Melhoria Futura
+		return "Lendo POM";
+	}
 	
 	public void setPath(String path) {
 		this.path = path;
